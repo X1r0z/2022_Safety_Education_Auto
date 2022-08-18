@@ -55,26 +55,6 @@ def isFinished(finished):
     else:
         return '未完成'
 
-def studyCourse(courseId):
-    url = 'https://weiban.mycourse.cn/pharos/usercourse/study.do'
-    data = {
-        'courseId': courseId,
-        'userProjectId': '2307c69c-76c5-404b-ad5e-624d5435c010',
-        'tenantCode': '21000008',
-        'userId': '32462b31-fe04-49af-ad09-f50452a9994a'
-    }
-    res = client.post(url, data=data, cookies=cookies,headers=headers)
-
-def getCourseUrl(courseId):
-    url = 'https://weiban.mycourse.cn/pharos/usercourse/getCourseUrl.do'
-    data = {
-        'courseId': courseId,
-        'userProjectId': '2307c69c-76c5-404b-ad5e-624d5435c010',
-        'tenantCode': '21000008',
-        'userId': '32462b31-fe04-49af-ad09-f50452a9994a',
-    }
-    res = client.post(url, data=data, cookies=cookies,headers=headers)
-
 def finishCourse(userCourseId):
     url = 'https://weiban.mycourse.cn/pharos/usercourse/finish.do'
     params = {
@@ -86,13 +66,10 @@ def finishCourse(userCourseId):
     #print(res.text)
 
 
-while True:
-    for _, categoryCode in listCategory():
-        for _, courseId, userCourseId, finished in listCourse(categoryCode):
-            if finished == 1:
-                continue
-            else:
-                #studyCourse(courseId)
-                #getCourseUrl(courseId)
-                time.sleep(30)
-                finishCourse(userCourseId)
+for _, categoryCode in listCategory():
+    for _, courseId, userCourseId, finished in listCourse(categoryCode):
+        if finished == 1:
+            continue
+        else:
+            time.sleep(30)
+            finishCourse(userCourseId)
